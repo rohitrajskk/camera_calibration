@@ -52,11 +52,10 @@ find_package(catkin REQUIRED COMPONENTS
 #)
 
 ## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
-#   Service1.srv
-#   Service2.srv
-# )
+ add_service_files(
+   FILES
+   cal.srv
+ )
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -66,10 +65,10 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs  # Or other packages containing msgs
-# )
+ generate_messages(
+   DEPENDENCIES
+   std_msgs  
+ )
 
 ###################################
 ## catkin specific configuration ##
@@ -164,15 +163,20 @@ include_directories(
 # catkin_add_nosetests(test)
 
 #ADD_DEFINITIONS("-g")
-#set(map_SRCS
-#      src/calibrate.cpp
-#      src/main.cpp
-#)
+set(map_SRCS
+      src/calibrate.cpp
+      src/calib_mat.cpp
+)
 
 include_directories(include ${catkin_INCLUDE_DIRS} ${opencv2_INCLUDE_DIRS})
 
 add_executable(save_image src/save_img.cpp)
 target_link_libraries(save_image ${catkin_LIBRARIES})
+
+add_executable(cal_matrix ${map_SRCS})
+add_dependencies(cal_matrix ${catkin_EXPORTED_TARGETS})
+target_link_libraries(cal_matrix ${catkin_LIBRARIES})
+
 
 
 
