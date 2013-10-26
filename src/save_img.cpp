@@ -73,7 +73,7 @@ public:
 		z[5]=char(filecounter);
 		filename=z;
 		SaveImageAsPPM(currentImage,filename);
-		ROS_INFO("Hi It works");
+		ROS_INFO("Image saved");
 		filecounter++;
 		return true;
 	}
