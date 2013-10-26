@@ -6,7 +6,7 @@
 #include <string>
 #include <ros/package.h>
 
-class cam_save {
+class camSave {
 public:
 	ros::NodeHandle n;
 	ros::ServiceServer service;
@@ -14,10 +14,10 @@ public:
 	sensor_msgs::ImageConstPtr currentImage;
 	char *filename;
 	int filecounter;
-	cam_save() {
+	camSave() {
 		filecounter=65;
-		service = n.advertiseService("save_image", &cam_save::save_image,this);
-		sub= n.subscribe("image_raw",1,&cam_save::message,this);
+		service = n.advertiseService("save_image", &camSave::save_image,this);
+		sub= n.subscribe("image_raw",1,&camSave::message,this);
 	}
 	
 	std::string retrieveString(const char* buf, int max ) {
@@ -40,11 +40,11 @@ public:
 		}
 
 		std::string basePath = ros::package::getPath("camera_calibration");
-		std::string f = cam_save::retrieveString(filename,15);
-		f = basePath +"/uvc_image"+ filename;
-		char * S = new char[f.length() + 1];
-		std::strcpy(S,f.c_str());
-		FILE* file = fopen( S, "w" );
+		std::string filename_string = camSave::retrieveString(filename,15);
+		filename_string = basePath +"/uvc_image/"+ filename;
+		char * filename_char = new char[filename_string.length() + 1];
+		std::strcpy(filename_char,filename_string.c_str());
+		FILE* file = fopen( filename_char, "w" );
   
 		fprintf( file, "P3\n" );
 		fprintf( file, "%i %i\n", msg->width, msg->height );
@@ -94,7 +94,7 @@ int main(int argc, char **argv){
 
 	ros::init(argc, argv, "save_image");
 	ROS_INFO("Ready to save image");
-    cam_save v;
+    camSave v;
 	v.spin();
 
 	return 0;
